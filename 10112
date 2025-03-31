@@ -1,0 +1,30 @@
+#10112
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+# Функция для вычисления глубины дерева и проверки сбалансированности
+def isBalanced(tree):
+    def depth(node):
+        if not node:
+            return 0
+        left_depth = depth(node.left)
+        right_depth = depth(node.right)
+        if left_depth == -1 or right_depth == -1 or abs(left_depth - right_depth) > 1:
+            return -1  # Возвращаем -1, если дерево несбалансировано
+        return max(left_depth, right_depth) + 1
+
+    return depth(tree) != -1
+
+# Создание дерева
+root = TreeNode(7)
+root.left = TreeNode(5)
+root.right = TreeNode(13)
+root.right.left = TreeNode(9)
+root.right.right = TreeNode(17)
+
+# Вызов функции для проверки сбалансированности
+result = isBalanced(root)
+print(result)  # Выводит True или False
