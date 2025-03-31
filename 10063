@@ -1,0 +1,35 @@
+#10063
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+def find(tree, element):
+    if tree is None:
+        return None
+    if tree.val == element:
+        return tree
+    elif element < tree.val:
+        return find(tree.left, element)
+    else:
+        return find(tree.right, element)
+
+
+root = TreeNode(4)
+root.left = TreeNode(2)
+root.right = TreeNode(10)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(3)
+root.right.left = TreeNode(9)
+root.right.right = TreeNode(16)
+
+element = int(input())
+
+result = find(root, element)
+
+if result:
+    print(f"Элемент {element} найден в дереве.")
+else:
+    print(f"Элемент {element} не найден в дереве.")
