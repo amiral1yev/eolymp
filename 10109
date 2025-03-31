@@ -1,0 +1,30 @@
+#10109
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+def minDepth(tree):
+    if tree is None:
+        return 0
+
+    # Если у узла нет левого поддерева, то минимальная глубина зависит от правого
+    if tree.left is None:
+        return minDepth(tree.right) + 1
+    # Если у узла нет правого поддерева, то минимальная глубина зависит от левого
+    if tree.right is None:
+        return minDepth(tree.left) + 1
+
+    # Если есть оба поддерева, берем минимальную глубину из двух поддеревьев
+    return min(minDepth(tree.left), minDepth(tree.right)) + 1
+
+
+root = TreeNode(5)
+root.left = TreeNode(3)
+root.right = TreeNode(10)
+root.left.left = TreeNode(1)
+
+# Вывод минимальной глубины дерева
+print(f"Минимальная глубина дерева: {minDepth(root)}")
