@@ -1,0 +1,29 @@
+#10111
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+# Функция для нахождения суммы левых листов
+def sumLeft(tree):
+    if tree is None:
+        return 0
+
+    # Если левый узел является листом
+    if tree.left and tree.left.left is None and tree.left.right is None:
+        return tree.left.val + sumLeft(tree.right)
+
+    # Иначе продолжаем обход дерева
+    return sumLeft(tree.left) + sumLeft(tree.right)
+
+# Создаем дерево
+root = TreeNode(7)
+root.left = TreeNode(5)
+root.right = TreeNode(13)
+root.right.left = TreeNode(9)
+root.right.right = TreeNode(17)
+
+# Вызов функции
+result = sumLeft(root)
+print(result)  # Выводит сумму левых листов
