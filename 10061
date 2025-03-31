@@ -1,0 +1,23 @@
+#10061
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def minimum(tree):
+    while tree.left:
+        tree = tree.left
+    return tree
+
+root = TreeNode(11)
+root.left = TreeNode(5)
+root.right = TreeNode(15)
+root.left.left = TreeNode(2)
+root.left.right = TreeNode(9)
+root.right.right = TreeNode(23)
+
+
+min_node = minimum(root)
+
+print(min_node.val)
