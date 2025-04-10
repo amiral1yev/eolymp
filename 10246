@@ -1,0 +1,23 @@
+# Чтение количества команд
+n = int(input())
+
+# Список команд
+teams = []
+
+# Чтение информации о командах
+for i in range(n):
+    data = input().split()
+    team_name = data[0]
+    solved = int(data[1])
+    penalty_time = int(data[2])
+    teams.append((team_name, solved, penalty_time, i + 1))  # Добавляем номер команды (i + 1)
+
+# Сортировка по трём критериям:
+# 1. По количеству решённых задач (по убыванию),
+# 2. По штрафному времени (по возрастанию),
+# 3. По номеру команды (по возрастанию)
+teams.sort(key=lambda team: (-team[1], team[2], team[3]))
+
+# Вывод отсортированных команд
+for team in teams:
+    print(team[0], team[1], team[2])
