@@ -1,0 +1,27 @@
+MOD = 1000000007
+
+def dfs(v, p, g):
+    s = 1
+    for to in g[v]:
+        if to != p:
+            sub = dfs(to, v, g)
+            s = (s * (sub + 1)) % MOD
+    return s
+
+def solve(n, parents):
+    g = [[] for _ in range(n + 1)]
+    for i in range(2, n + 1):
+        g[i].append(parents[i - 2])
+        g[parents[i - 2]].append(i)
+    result = dfs(1, -1, g)
+    print(result)
+
+# Основная часть программы, позволяющая вводить данные
+def main():
+    n = int(input())
+    parents = list(map(int, input().split()))
+    solve(n, parents)
+
+# Запуск программы
+if __name__ == "__main__":
+    main()
