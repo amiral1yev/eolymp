@@ -1,0 +1,48 @@
+from collections import deque
+
+def manhattan_distance(p1, p2):
+    return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+
+def can_reach(start, end, beer_count):
+    # Рассчитываем, можно ли пройти между двумя точками, имея beer_count бутылок пива
+    return manhattan_distance(start, end) <= beer_count * 50
+
+def solve():
+    t = int(input())  # Количество тестов
+    for _ in range(t):
+        n = int(input())  # Количество магазинов
+        positions = []
+        
+        # Чтение координат
+        for _ in range(n + 2):  # n магазинов + дом + Бергкирхвайх
+            positions.append(tuple(map(int, input().split())))
+        
+        # Начальная точка (дом Джо) и конечная точка (Бергкирхвайх)
+        start = positions[0]
+        end = positions[-1]
+        stores = positions[1:-1]
+        
+        # BFS или DFS для проверки, можем ли мы добраться до Бергкирхвайха
+        max_beer = 20  # Максимум 20 бутылок пива
+        beer_count = max_beer
+        visited = [False] * (n + 2)  # Массив для отслеживания посещенных точек
+        queue = deque([(start, beer_count)])  # В очередь добавляем начальную точку и количество пива
+        visited[0] = True
+        
+        while queue:
+            current_position, current_beer = queue.popleft()
+            
+            # Если мы достигли Бергкирхвайха
+            if current_position == end:
+                print("happy")
+                break
+            
+            # Проверяем все соседние точки (магазины и Бергкирхвайх)
+            for i, next_position in enumerate([start] + stores + [end]):
+                if not visited[i] and can_reach(current_position, next_position, current_beer):
+                    visited[i] = True
+                    queue.append((next_position, max_beer))  # Пополняем пиво до 20 бутылок
+        else:
+            print("sad")
+
+solve()
