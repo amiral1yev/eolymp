@@ -1,0 +1,29 @@
+def dfs(v, g, used, result):
+    used[v] = True  # Отметим вершину как посещённую
+    for to in g[v]:
+        if not used[to]:  # Если сосед ещё не посещён
+            result.append((v, to))  # Добавляем это ребро в дерево
+            dfs(to, g, used, result)  # Рекурсивно посещаем соседей
+
+# Чтение входных данных
+n, m = map(int, input().split())
+
+# Список смежности для графа
+g = [[] for _ in range(n + 1)]
+
+# Чтение рёбер и построение графа
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
+
+# Список для отслеживания посещённых вершин
+used = [False] * (n + 1)
+result = []
+
+# Запускаем DFS с вершины 1 (или любой другой)
+dfs(1, g, used, result)
+
+# Выводим рёбра остовного дерева
+for edge in result:
+    print(edge[0], edge[1])
