@@ -1,0 +1,14 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def length(head):
+    count = 0
+    current = head
+    
+    while current:
+        count += 1
+        current = current.next
+    
+    return count
