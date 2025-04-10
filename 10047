@@ -1,0 +1,32 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def intersection(l1, l2):
+    # Определяем длину первого списка
+    def get_length(node):
+        length = 0
+        while node:
+            length += 1
+            node = node.next
+        return length
+    
+    len1, len2 = get_length(l1), get_length(l2)
+    
+    # Выравниваем начало двух списков
+    while len1 > len2:
+        l1 = l1.next
+        len1 -= 1
+    while len2 > len1:
+        l2 = l2.next
+        len2 -= 1
+    
+    # Ищем точку пересечения
+    while l1 and l2:
+        if l1 == l2:
+            return l1  # Возвращаем узел пересечения
+        l1 = l1.next
+        l2 = l2.next
+    
+    return None  # Если пересечения нет
