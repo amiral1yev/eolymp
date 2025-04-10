@@ -1,0 +1,13 @@
+# Чтение входных данных
+n = int(input())  # Количество вершин
+graph = [list(map(int, input().split())) for _ in range(n)]  # Матрица смежности
+
+# Подсчет висячих вершин
+hanging_count = 0
+for i in range(n):
+    degree = sum(graph[i])  # Степень вершины - количество единиц в строке
+    if degree == 1:
+        hanging_count += 1
+
+# Вывод результата
+print(hanging_count)
