@@ -1,0 +1,26 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def distance_to_cycle(head):
+    slow, fast = head, head
+    distance = 0
+
+    # Определяем наличие цикла
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:  # Найден цикл
+            break
+    else:
+        return -1  # Цикла нет
+
+    # Найти точку входа в цикл
+    slow = head
+    while slow != fast:
+        slow = slow.next
+        fast = fast.next
+        distance += 1
+
+    return distance  # Расстояние до вершины, где начинается цикл
