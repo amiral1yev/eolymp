@@ -1,0 +1,14 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def maximum(root):
+    if not root:
+        return None  # Если дерево пустое, возвращаем None
+
+    while root.right:  # Двигаемся вправо, пока можем
+        root = root.right
+    
+    return root  # Узел с максимальным значением
