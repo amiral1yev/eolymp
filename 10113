@@ -1,0 +1,14 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def sum_leaves(root):
+    if not root:
+        return 0  # Если дерево пустое, сумма 0
+
+    if not root.left and not root.right:  # Если узел — лист
+        return root.val
+
+    return sum_leaves(root.left) + sum_leaves(root.right)
