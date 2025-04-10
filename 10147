@@ -1,0 +1,23 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        self.parent = None  # Добавляем ссылку на родителя
+
+def prev_node(node):
+    if not node:
+        return None
+
+    # 1. Если у узла есть левое поддерево, ищем максимальный элемент в нем
+    if node.left:
+        predecessor = node.left
+        while predecessor.right:
+            predecessor = predecessor.right
+        return predecessor
+
+    # 2. Если нет левого поддерева, двигаемся вверх по дереву
+    while node.parent and node.parent.left == node:
+        node = node.parent
+
+    return node.parent  # Если есть родитель, возвращаем его, иначе None
