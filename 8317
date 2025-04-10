@@ -1,0 +1,12 @@
+s = input().strip()
+
+# Преобразуем строку в список символов и сортируем по убыванию
+a_str = ''.join(sorted(s, reverse=True))
+a = int(a_str)
+
+# Сортируем по возрастанию
+b_str = ''.join(sorted(s))
+b = int(b_str)
+
+# Выводим квадрат разности
+print((a - b) ** 2)
