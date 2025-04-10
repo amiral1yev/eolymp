@@ -1,0 +1,20 @@
+# Функция для вычисления суммы цифр числа
+def sum_digits(n):
+    if n < 10:
+        return n
+    return sum_digits(n // 10) + n % 10
+
+# Функция для вычисления цифрового корня числа
+def dig_sum(n):
+    while n > 9:
+        n = sum_digits(n)
+    return n
+
+# Основная часть программы
+lst = list(map(int, input().split()))
+
+# Сортировка по цифровому корню и по самому числу
+lst.sort(key = lambda x: (dig_sum(x), x))
+
+# Вывод отсортированного списка
+print(*lst)
