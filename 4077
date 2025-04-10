@@ -1,0 +1,40 @@
+def dfs(i, n, rel, salary):
+    # Если зарплата уже вычислена, возвращаем её
+    if salary[i] > 0:
+        return salary[i]
+    
+    # Идем по всем подчиненным работника i
+    for j in range(n):
+        if rel[i][j] == 'Y':
+            salary[i] += dfs(j, n, rel, salary)  # Добавляем зарплату подчиненного
+    
+    # Если у работника нет подчиненных, его зарплата равна 1
+    if salary[i] == 0:
+        salary[i] = 1
+    
+    return salary[i]
+
+def solve():
+    while True:
+        try:
+            n = int(input())  # Количество работников
+            rel = [input().strip() for _ in range(n)]  # Считываем матрицу отношений
+            salary = [0] * n  # Массив для хранения зарплат
+            total_salary = 0  # Переменная для подсчета общей зарплаты
+
+            # Для каждого работника проверяем, была ли уже вычислена его зарплата
+            for i in range(n):
+                if salary[i] == 0:
+                    dfs(i, n, rel, salary)  # Если не была вычислена, запускаем DFS
+
+            # Суммируем все зарплаты
+            total_salary = sum(salary)
+
+            # Выводим результат для текущего теста
+            print(total_salary)
+        
+        except EOFError:
+            break  # Выход из цикла, если достигнут конец ввода
+
+# Вызовем функцию solve для начала работы программы
+solve()
