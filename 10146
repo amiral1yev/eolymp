@@ -1,0 +1,23 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        self.parent = None  # Добавляем ссылку на родителя
+
+def next_node(node):
+    if not node:
+        return None
+
+    # 1. Если есть правое поддерево, ищем минимальный элемент в нем
+    if node.right:
+        successor = node.right
+        while successor.left:
+            successor = successor.left
+        return successor
+
+    # 2. Если нет правого поддерева, двигаемся вверх по дереву
+    while node.parent and node.parent.right == node:
+        node = node.parent
+
+    return node.parent  # Если есть родитель, возвращаем его, иначе None
