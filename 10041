@@ -1,0 +1,14 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def print_reverse(head):
+    values = []
+    current = head
+    
+    while current:
+        values.append(current.val)
+        current = current.next
+    
+    print(" ".join(map(str, reversed(values))))
