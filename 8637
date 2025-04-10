@@ -1,0 +1,22 @@
+import sys
+
+# Функция для сравнения двух точек
+def f(a, b):
+    if a[0] + a[1] == b[0] + b[1]:
+        return a[0] < b[0]
+    return a[0] + a[1] < b[0] + b[1]
+
+# Список p для хранения всех точек
+p = []
+
+# Чтение входных данных
+for line in sys.stdin:
+    x, y = map(int, line.split())
+    p.append((x, y))
+
+# Сортировка точек по заданному критерию
+p.sort(key = lambda point: (point[0] + point[1], point[0]))
+
+# Вывод отсортированных точек
+for point in p:
+    print(point[0], point[1])
