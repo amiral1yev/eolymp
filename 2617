@@ -1,0 +1,16 @@
+MAX = 32
+m = [0] * MAX
+
+n_and_days = list(map(int, input().split()))
+n = n_and_days[0]
+days = n_and_days[1:]
+
+# Если подано всё одной строкой
+if len(days) < n:
+    days += list(map(int, input().split()))
+
+for day in days[:n]:
+    m[day] += 1
+
+res = sum(1 for count in m if count > 0)
+print(res)
