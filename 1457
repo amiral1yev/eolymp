@@ -1,0 +1,14 @@
+n, M = map(int, input().split())
+masses = list(map(int, input().split()))
+
+mx = 0
+result = "Yes"
+
+for val in masses:
+    if val < mx and val + mx > M:
+        result = "No"
+        break
+    if val > mx:
+        mx = val
+
+print(result)
