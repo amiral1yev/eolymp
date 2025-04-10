@@ -1,0 +1,17 @@
+# Массив для подсчета
+cnt = [0] * 101
+
+# Чтение входных данных
+n = int(input())
+segments = list(map(int, input().split()))
+
+# Подсчет отрезков длины i
+for i in segments:
+    cnt[i] += 1
+
+# Подсчитаем количество квадратов
+res = 0
+for i in range(1, 101):
+    res += cnt[i] // 4
+
+print(res)
