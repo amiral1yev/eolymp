@@ -1,0 +1,11 @@
+# Чтение входных данных
+n = int(input())  # Количество вершин
+graph = [list(map(int, input().split())) for _ in range(n)]  # Матрица смежности
+
+# Проверка на наличие петель (если хотя бы один элемент на диагонали равен 1)
+for i in range(n):
+    if graph[i][i] == 1:
+        print("YES")
+        break
+else:
+    print("NO")
