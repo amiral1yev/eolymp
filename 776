@@ -1,0 +1,25 @@
+import sys
+sys.setrecursionlimit(1000000)
+
+def dfs(v):
+    used[v] = 1
+    for to in g[v]:
+        if not used[to]:
+            dfs(to)
+
+n, m = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+used = [0] * (n + 1)
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
+
+cnt = 0
+for i in range(1, n + 1):
+    if not used[i]:
+        dfs(i)
+        cnt += 1
+
+print(cnt - 1)
