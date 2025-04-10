@@ -1,0 +1,13 @@
+MAX = 100010
+m = [0] * MAX
+
+n = int(input())
+values = list(map(int, input().split()))
+
+for v in values:
+    m[v] += 1
+
+for i in range(MAX):
+    for _ in range(m[i]):
+        print(i, end=' ')
+print()
