@@ -1,0 +1,19 @@
+def dfs(v, cur_xor = 0, p = -1):
+    x[v] = cur_xor
+    for to, w in g[v]:
+        if to != p:
+            dfs(to, cur_xor ^ w, v)
+
+n = int(input())
+g = [[] for _ in range(n + 1)]
+for _ in range(n - 1):
+    u, v, d = map(int, input().split())
+    g[u].append((v, d))
+    g[v].append((u, d))
+
+x = [0] * (n + 1)
+dfs(1)
+
+ones = sum(x)
+zeroes = n - ones
+print(ones * zeroes)
