@@ -1,0 +1,21 @@
+# Чтение входных данных
+n = int(input())  # количество вершин
+graph = [list(map(int, input().split())) for _ in range(n)]  # матрица смежности
+
+# Списки для истоков и стоков
+sources = []
+sinks = []
+
+# Определяем истоки и стоки
+for i in range(n):
+    # Проверяем исток (все элементы в i-ом столбце равны 0)
+    if all(graph[j][i] == 0 for j in range(n)):
+        sources.append(i + 1)  # нумерация с 1
+
+    # Проверяем сток (все элементы в i-ой строке равны 0)
+    if all(graph[i][j] == 0 for j in range(n)):
+        sinks.append(i + 1)  # нумерация с 1
+
+# Выводим результаты
+print(len(sources), *sources)
+print(len(sinks), *sinks)
