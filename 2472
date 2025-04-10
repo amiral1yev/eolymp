@@ -1,0 +1,26 @@
+def main():
+    n = int(input())  # Количество вершин
+    k = int(input())  # Количество операций
+
+    # Список смежности для хранения графа
+    graph = [[] for _ in range(n + 1)]
+
+    result = []
+
+    for _ in range(k):
+        operation = input().split()
+        if operation[0] == '1':  # Операция AddEdge(u, v)
+            u = int(operation[1])
+            v = int(operation[2])
+            # Добавляем ребра между u и v (граф неориентированный)
+            graph[u].append(v)
+            graph[v].append(u)
+        elif operation[0] == '2':  # Операция Vertex(u)
+            u = int(operation[1])
+            # Выводим список смежных вершин для вершины u
+            result.append(" ".join(map(str, graph[u])))
+
+    # Выводим все результаты
+    print("\n".join(result))
+
+main()
