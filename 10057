@@ -1,0 +1,13 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def pre_order(root):
+    if not root:
+        return
+
+    print(root.val, end=" ")  # Сначала корень
+    pre_order(root.left)      # Затем левое поддерево
+    pre_order(root.right)     # Затем правое поддерево
