@@ -1,0 +1,21 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def delete_first_element(head, element):
+    if not head:
+        return None  # Если список пуст, просто возвращаем None
+
+    # Если удаляемый элемент находится в голове списка
+    if head.val == element:
+        return head.next  # Возвращаем следующий узел
+
+    current = head
+    while current.next:
+        if current.next.val == element:
+            current.next = current.next.next  # Удаляем первый найденный узел
+            return head  # Возвращаем обновленный список
+        current = current.next
+
+    return head  # Если элемент не найден, возвращаем исходный список
