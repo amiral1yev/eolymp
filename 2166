@@ -1,0 +1,8 @@
+l1 = list(input())
+l2 = list(input())
+l1.sort()
+l2.sort()
+if l1 == l2:
+  print('YES')
+else:
+  print('NO')
