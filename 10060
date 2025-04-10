@@ -1,0 +1,13 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def post_order(root):
+    if not root:
+        return
+
+    post_order(root.left)  # Обход левого поддерева
+    post_order(root.right)  # Обход правого поддерева
+    print(root.val, end=" ")  # Выводим значение текущей вершины
