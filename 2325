@@ -1,0 +1,7 @@
+a, b = input().split()
+
+c = list(a + b)
+
+c.sort(reverse = True)
+
+print(''.join(c))
