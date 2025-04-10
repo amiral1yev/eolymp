@@ -1,0 +1,18 @@
+# Чтение количества вершин
+n = int(input())
+
+# Инициализация матрицы смежности и массива степеней вершин
+g = [[] for _ in range(n)]
+deg = [0] * n
+
+# Чтение матрицы смежности
+for i in range(n):
+    g[i] = list(map(int, input().split()))
+
+# Вычисление степеней вершин
+for i in range(n):
+    deg[i] = sum(g[i])
+
+# Вывод степеней вершин
+for i in range(n):
+    print(deg[i])
