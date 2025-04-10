@@ -1,0 +1,11 @@
+n = int(input())
+G = [[int(i) for i in input().split()] for j in range(n)]
+bad_bridges = 0  # Переименовали переменную
+input()
+R = [int(r) for r in input().split()]
+for i in range(n):
+    for j in range(i, n):
+        if G[i][j] == 1:
+            if R[i] != R[j]:
+                bad_bridges += 1
+print(bad_bridges)
