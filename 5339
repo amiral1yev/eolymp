@@ -1,0 +1,25 @@
+def dfs(v, used, g):
+    used[v] = True
+    for i in range(len(g)):
+        if g[v][i] == 1 and not used[i]:
+            dfs(i, used, g)
+
+def solve():
+    # Чтение данных
+    n = int(input())  # количество домиков
+    g = [list(map(int, input().split())) for _ in range(n)]  # матрица смежности
+    
+    used = [False] * n  # массив для отслеживания посещенных вершин
+    cnt = 0  # счетчик компонент связности
+    
+    # Для каждой вершины запускаем DFS, если она еще не была посещена
+    for i in range(n):
+        if not used[i]:
+            dfs(i, used, g)
+            cnt += 1  # увеличиваем счетчик компонент связности
+    
+    # Ответ — это количество компонент связности
+    print(cnt)
+
+# Запуск решения
+solve()
