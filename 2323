@@ -1,0 +1,3 @@
+n = sorted(input())
+
+print(int(''.join(n)) + int(''.join(n)[::-1]))
