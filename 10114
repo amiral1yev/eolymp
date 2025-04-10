@@ -1,0 +1,18 @@
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def invert_tree(root):
+    if not root:
+        return None  # Если дерево пустое, возвращаем None
+
+    # Меняем местами левое и правое поддерево
+    root.left, root.right = root.right, root.left
+
+    # Рекурсивно инвертируем левое и правое поддерево
+    invert_tree(root.left)
+    invert_tree(root.right)
+
+    return root  # Возвращаем инвертированное дерево
