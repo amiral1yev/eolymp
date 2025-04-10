@@ -1,0 +1,13 @@
+# Чтение входных данных
+n = int(input())
+matrix = [list(map(int, input().split())) for _ in range(n)]
+
+# Проверка условий
+for i in range(n):
+    for j in range(i + 1, n):  # Проверяем только верхнюю треугольную матрицу
+        if matrix[i][j] != matrix[j][i] or matrix[i][i] != 0:
+            print("NO")
+            exit()
+
+# Если все проверки пройдены
+print("YES")
