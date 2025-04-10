@@ -1,0 +1,21 @@
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def cycle_length(head):
+    slow, fast = head, head
+    
+    # Определяем наличие цикла
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:  # Найден цикл
+            length = 1
+            fast = fast.next
+            while slow != fast:  # Подсчитываем длину цикла
+                length += 1
+                fast = fast.next
+            return length
+    
+    return -1  # Если цикла нет
