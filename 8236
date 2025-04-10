@@ -1,0 +1,17 @@
+# Чтение входных данных
+n = int(input())  # количество чисел
+numbers = list(map(int, input().split()))  # список чисел
+
+# Разделяем числа на нечетные и четные
+odd_numbers = [num for num in numbers if num % 2 != 0]
+even_numbers = [num for num in numbers if num % 2 == 0]
+
+# Сортируем нечетные числа по возрастанию и четные числа по убыванию
+odd_numbers.sort()
+even_numbers.sort(reverse=True)
+
+# Объединяем отсортированные списки
+result = odd_numbers + even_numbers
+
+# Выводим результат
+print(*result)
