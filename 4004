@@ -1,0 +1,28 @@
+def has_cycle(graph, n):
+    def dfs(vertex):
+        visited[vertex] = 1  # Mark as visiting
+        for neighbor in range(n):
+            if graph[vertex][neighbor] == 1:  # There is an edge
+                if visited[neighbor] == 0:  # If not visited
+                    if dfs(neighbor):
+                        return True
+                elif visited[neighbor] == 1:  # Back edge detected (cycle)
+                    return True
+        visited[vertex] = 2  # Mark as fully visited
+        return False
+
+    visited = [0] * n  # 0 = unvisited, 1 = visiting, 2 = fully visited
+    for i in range(n):
+        if visited[i] == 0:  # Start DFS from unvisited nodes
+            if dfs(i):
+                return 1  # Cycle found
+    return 0  # No cycle
+
+
+if __name__ == "__main__":
+    n = int(input())  # Number of vertices
+    graph = []
+    for _ in range(n):
+        graph.append(list(map(int, input().split())))
+    
+    print(has_cycle(graph, n))
