@@ -1,0 +1,48 @@
+from queue import PriorityQueue
+
+# Константа для бесконечности
+INF = 10**9
+
+def dijkstra(graph, dist, start):
+    # Очередь с приоритетами
+    pq = PriorityQueue()
+    pq.put((0, start))
+    
+    # Инициализация расстояний
+    dist.extend([INF] * (len(graph)))
+    dist[start] = 0
+    
+    # Основной цикл алгоритма
+    while not pq.empty():
+        cur_dist, v = pq.get()
+        
+        if cur_dist > dist[v]:
+            continue
+        
+        for to, cost in graph[v]:
+            if dist[v] + cost < dist[to]:
+                dist[to] = dist[v] + cost
+                pq.put((dist[to], to))
+
+# Основная часть программы
+n, m = map(int, input().split())  # Читаем количество вершин и рёбер
+start, fin = map(int, input().split())  # Стартовая и конечная вершины
+g = [[] for _ in range(n + 1)]  # Инициализируем граф
+
+# Читаем рёбра графа
+for _ in range(m):
+    b, e, w = map(int, input().split())
+    g[b].append((e, w))
+    g[e].append((b, w))
+
+# Список для кратчайших расстояний
+dist = []
+
+# Запуск алгоритма Дейкстры
+dijkstra(g, dist, start)
+
+# Вывод результата
+if dist[fin] == INF:
+    print("-1")  # Если пути нет
+else:
+    print(dist[fin])  # Выводим кратчайшее расстояние
