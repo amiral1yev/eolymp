@@ -1,0 +1,48 @@
+from collections import deque
+
+def solve():
+    # Чтение входных данных
+    n, m = map(int, input().split())  # Читаем количество вершин и рёбер
+    adj = [[] for _ in range(n + 1)]  # Список смежности для графа
+    
+    # Чтение рёбер
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    k = int(input())  # Читаем количество точек поджога
+    fire_start = list(map(int, input().split()))  # Читаем номера вершин, где начинается поджог
+    
+    # Массив времени возгорания. -1 означает, что вершина не загорелась.
+    fire_time = [-1] * (n + 1)
+    
+    # Очередь для BFS
+    queue = deque()
+    
+    # Инициализация очереди с точками поджога
+    for vertex in fire_start:
+        fire_time[vertex] = 0
+        queue.append(vertex)
+    
+    # BFS
+    while queue:
+        v = queue.popleft()
+        current_time = fire_time[v]
+        
+        # Проходим по всем смежным вершинам
+        for neighbor in adj[v]:
+            if fire_time[neighbor] == -1:  # Если вершина ещё не загорелась
+                fire_time[neighbor] = current_time + 1
+                queue.append(neighbor)
+    
+    # Находим вершину с максимальным временем возгорания
+    max_time = max(fire_time[1:])  # исключаем 0 индекс
+    last_vertex = fire_time.index(max_time)  # находим первую вершину с максимальным временем
+    
+    # Выводим результат
+    print(max_time)
+    print(last_vertex)
+
+# Вызов функции решения
+solve()
