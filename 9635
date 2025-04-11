@@ -1,0 +1,53 @@
+from collections import deque
+
+# Function to perform BFS and compute shortest distances from the start vertex
+def bfs(start, n, graph):
+    dist = [-1] * (n + 1)
+    dist[start] = 0
+
+    q = deque([start])
+
+    while q:
+        v = q.popleft()
+        for to in range(1, n + 1):
+            if graph[v][to] == 1 and dist[to] == -1:  # Check unvisited and connected vertex
+                dist[to] = dist[v] + 1
+                q.append(to)
+
+    return dist
+
+# Main function to solve the problem
+def solve():
+    # Input reading
+    n, m, s, f = map(int, input().split())
+
+    # Graph as adjacency matrix
+    graph = [[0] * (n + 1) for _ in range(n + 1)]
+
+    for _ in range(m):
+        a, b = map(int, input().split())
+        graph[a][b] = 1
+        graph[b][a] = 1
+
+    # Compute shortest distances from `s` and `f`
+    distS = bfs(s, n, graph)
+    distF = bfs(f, n, graph)
+
+    # Optimal distance from `s` to `f`
+    optDistance = distS[f]
+
+    # Count permissible new roads
+    res = 0
+    for i in range(1, n + 1):
+        for j in range(i + 1, n + 1):
+            if graph[i][j] == 0:  # No existing road
+                # Check if adding road (i, j) satisfies the conditions
+                if (distS[i] + distF[j] + 1 >= optDistance and
+                    distS[j] + distF[i] + 1 >= optDistance):
+                    res += 1
+
+    # Output the result
+    print(res)
+
+# Invoke the solver
+solve()
