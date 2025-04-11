@@ -1,0 +1,53 @@
+import heapq
+
+def dijkstra(graph, start, n):
+    distances = [float('inf')] * (n + 1)
+    distances[start] = 0
+    priority_queue = [(0, start)]
+
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+
+        if current_distance > distances[current_node]:
+            continue
+
+        for neighbor, weight in graph[current_node]:
+            distance = current_distance + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(priority_queue, (distance, neighbor))
+
+    return distances
+
+def calculate_extra_cost(n, a, b, c, d, roads):
+    graph = [[] for _ in range(n + 1)]
+    for u, v, w in roads:
+        graph[u].append((v, w))
+        graph[v].append((u, w))
+
+    distances_from_a = dijkstra(graph, a, n)
+    distances_from_b = dijkstra(graph, b, n)
+
+    dist_ab = distances_from_a[b]
+    dist_ac = distances_from_a[c]
+    dist_bc = distances_from_b[c]
+
+    if dist_ab == float('inf') or dist_ac == float('inf') or dist_bc == float('inf'):
+        return -1
+
+    extra_cost = (dist_ab + dist_bc - dist_ac) * d
+    return extra_cost
+
+# Пользовательский ввод
+n, a, b, c, d = map(float, input().split())  # Сначала вводятся n, A, B, C и d через пробел
+n, a, b, c = int(n), int(a), int(b), int(c)  # Приводим целые значения к типу int
+
+m = int(input())  # Количество дорог
+roads = []
+for _ in range(m):
+    u, v, w = map(float, input().split())  # Каждая дорога: u, v, длина дороги
+    roads.append((int(u), int(v), w))
+
+# Вычисляем результат
+result = calculate_extra_cost(n, a, b, c, d, roads)
+print(result)
