@@ -1,0 +1,49 @@
+def dijkstra_fixed_indexing(n, s, f, graph):
+    # Constants
+    INF = float('inf')
+
+    # Distance array initialized with infinity
+    dist = [INF] * n
+    dist[s - 1] = 0  # Convert vertex indices from 1-based to 0-based
+
+    # Priority queue (min-heap)
+    used = [False] * n
+
+    while True:
+        # Find the unvisited vertex with the smallest distance
+        min_dist = INF
+        v = -1
+        for i in range(n):  # Adjusted to loop through 0 to n-1
+            if not used[i] and dist[i] < min_dist:
+                min_dist = dist[i]
+                v = i
+
+        # No more reachable vertices
+        if v == -1:
+            break
+
+        # Mark the vertex as visited
+        used[v] = True
+
+        # Relaxation step: Update distances to neighbors
+        for u in range(n):  # Adjusted to loop through 0 to n-1
+            if graph[v][u] != -1:  # If there is an edge
+                dist[u] = min(dist[u], dist[v] + graph[v][u])
+
+    # Return the distance to the target vertex (convert index back to 1-based)
+    return dist[f - 1] if dist[f - 1] != INF else -1
+
+
+# Main program
+if __name__ == "__main__":
+    # Read input
+    n, s, f = map(int, input().split())
+
+    # Read adjacency matrix
+    graph = []
+    for i in range(n):  # Adjusted to n rows (0-based indexing)
+        graph.append(list(map(int, input().split())))
+
+    # Find the shortest path using Dijkstra's algorithm
+    result = dijkstra_fixed_indexing(n, s, f, graph)
+    print(result)
