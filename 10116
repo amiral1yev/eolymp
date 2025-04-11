@@ -1,0 +1,69 @@
+from collections import deque, defaultdict
+
+def find_almost_shortest_path(n, m, s, t, edges):
+    # Построение графа
+    graph = defaultdict(list)
+    for a, b in edges:
+        graph[a].append(b)
+        graph[b].append(a)
+
+    # BFS для вычисления кратчайшего пути и пометки рёбер
+    def bfs(start):
+        dist = [-1] * (n + 1)
+        dist[start] = 0
+        queue = deque([start])
+
+        while queue:
+            v = queue.popleft()
+            for neighbor in graph[v]:
+                if dist[neighbor] == -1:
+                    dist[neighbor] = dist[v] + 1
+                    queue.append(neighbor)
+
+        return dist
+
+    # Найти кратчайшее расстояние от s до t
+    dist_s = bfs(s)
+    dist_t = bfs(t)
+
+    if dist_s[t] == -1:
+        return -1
+
+    # Определение рёбер, принадлежащих кратчайшему пути
+    shortest_distance = dist_s[t]
+    forbidden_edges = set()
+    for u in range(1, n + 1):
+        if dist_s[u] + dist_t[u] == shortest_distance:
+            for v in graph[u]:
+                if dist_s[u] + 1 + dist_t[v] == shortest_distance:
+                    forbidden_edges.add((min(u, v), max(u, v)))
+
+    # BFS для поиска почти кратчайшего пути
+    def bfs_almost_shortest(start):
+        dist = [-1] * (n + 1)
+        dist[start] = 0
+        queue = deque([start])
+
+        while queue:
+            v = queue.popleft()
+            for neighbor in graph[v]:
+                if dist[neighbor] == -1 and (min(v, neighbor), max(v, neighbor)) not in forbidden_edges:
+                    dist[neighbor] = dist[v] + 1
+                    queue.append(neighbor)
+
+        return dist
+
+    # Найти длину почти кратчайшего пути от s до t
+    dist_almost = bfs_almost_shortest(s)
+    return dist_almost[t] if dist_almost[t] != -1 else -1
+
+
+# Основная программа
+if __name__ == "__main__":
+    # Считывание входных данных
+    n, m, s, t = map(int, input().split())
+    edges = [tuple(map(int, input().split())) for _ in range(m)]
+
+    # Нахождение почти кратчайшего пути
+    result = find_almost_shortest_path(n, m, s, t, edges)
+    print(result)
