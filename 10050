@@ -1,0 +1,43 @@
+from collections import deque
+
+# BFS для нахождения самого дальнего узла и расстояния до него
+def bfs(v, g, d):
+    q = deque()
+    q.append(v)
+
+    while q:
+        v = q.popleft()
+        for to, w in g[v]:
+            if d[to] == -1:  # Если вершина ещё не посещена
+                d[to] = d[v] + w
+                q.append(to)
+
+    # Возвращаем вершину с максимальным расстоянием
+    return d.index(max(d))
+
+# Основная программа
+if __name__ == "__main__":
+    # Чтение количества вершин
+    n = int(input())
+
+    # Создание списка смежности
+    g = [[] for _ in range(n + 1)]
+
+    # Чтение рёбер и построение графа
+    for _ in range(n - 1):
+        b, e, dist = map(int, input().split())
+        g[b].append((e, dist))
+        g[e].append((b, dist))
+
+    # Первый BFS из вершины 1
+    d = [-1] * (n + 1)
+    d[1] = 0
+    v = bfs(1, g, d)
+
+    # Второй BFS из найденной самой дальней вершины
+    d = [-1] * (n + 1)
+    d[v] = 0
+    v = bfs(v, g, d)
+
+    # Вывод длины наибольшего пути
+    print(max(d))
