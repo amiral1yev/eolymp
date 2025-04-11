@@ -1,0 +1,42 @@
+def dfs(grid, i, j, h, w):
+    # Проверяем выход за пределы комнаты или попадание на стену
+    if i < 0 or i >= h or j < 0 or j >= w or grid[i][j] == '#':
+        return 0
+
+    # Помечаем клетку как посещённую, заменяя её на стену
+    grid[i][j] = '#'
+
+    # Увеличиваем счётчик достижимых плиток и обходим соседние
+    count = 1
+    count += dfs(grid, i - 1, j, h, w)  # вверх
+    count += dfs(grid, i + 1, j, h, w)  # вниз
+    count += dfs(grid, i, j - 1, h, w)  # влево
+    count += dfs(grid, i, j + 1, h, w)  # вправо
+
+    return count
+
+
+def count_reachable_tiles():
+    while True:
+        # Считывание размеров комнаты
+        w, h = map(int, input().split())
+        if w == 0 and h == 0:
+            break
+
+        # Считывание лабиринта
+        grid = []
+        for _ in range(h):
+            grid.append(list(input().strip()))
+
+        # Поиск плитки, на которой стоит человек
+        for i in range(h):
+            for j in range(w):
+                if grid[i][j] == '@':
+                    # Запуск DFS из начальной позиции
+                    result = dfs(grid, i, j, h, w)
+                    print(result)
+
+
+# Основная программа
+if __name__ == "__main__":
+    count_reachable_tiles()
