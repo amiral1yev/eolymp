@@ -1,0 +1,39 @@
+def is_bipartite(n, edges):
+    # Создание списка смежности для графа
+    graph = [[] for _ in range(n + 1)]
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+
+    # Массив для хранения цвета каждой вершины (-1 означает неокрашенную вершину)
+    colors = [-1] * (n + 1)
+
+    # BFS для проверки двухцветности
+    def bfs(start):
+        queue = [start]
+        colors[start] = 0  # Начать с окраски вершины в 0
+
+        while queue:
+            current = queue.pop(0)
+            for neighbor in graph[current]:
+                if colors[neighbor] == -1:  # Если сосед ещё не окрашен
+                    colors[neighbor] = 1 - colors[current]  # Окрасить в противоположный цвет
+                    queue.append(neighbor)
+                elif colors[neighbor] == colors[current]:  # Если сосед имеет тот же цвет
+                    return False
+        return True
+
+    # Проверка всех компонент графа на случай, если граф состоит из нескольких компонент
+    for i in range(1, n + 1):
+        if colors[i] == -1:  # Если вершина ещё не посещена
+            if not bfs(i):
+                return "NO"
+
+    return "YES"
+
+
+# Основной код для обработки ввода и вывода
+if __name__ == "__main__":
+    n, m = map(int, input().split())  # Количество студентов и пар
+    edges = [tuple(map(int, input().split())) for _ in range(m)]
+    print(is_bipartite(n, edges))
