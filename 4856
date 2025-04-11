@@ -1,0 +1,72 @@
+from collections import defaultdict
+import heapq
+
+def dijkstra_with_path(n, m, s, f, edges):
+    # Константа для "бесконечности"
+    INF = float('inf')
+
+    # Построение графа
+    graph = defaultdict(list)
+    for b, e, w in edges:
+        graph[b].append((e, w))
+        graph[e].append((b, w))  # Граф неориентированный
+
+    # Инициализация массивов расстояния и предшественников
+    dist = [INF] * (n + 1)
+    dist[s] = 0
+    prev = [-1] * (n + 1)
+
+    # Очередь с приоритетом
+    pq = []
+    heapq.heappush(pq, (0, s))  # (расстояние, вершина)
+
+    while pq:
+        current_dist, u = heapq.heappop(pq)
+
+        # Если расстояние из очереди больше уже найденного, пропускаем
+        if current_dist > dist[u]:
+            continue
+
+        # Релаксируем соседей
+        for v, weight in graph[u]:
+            new_dist = dist[u] + weight
+            if new_dist < dist[v]:
+                dist[v] = new_dist
+                prev[v] = u
+                heapq.heappush(pq, (new_dist, v))
+
+    # Если путь до f не существует
+    if dist[f] == INF:
+        return -1, []
+
+    # Восстановление пути
+    path = []
+    current = f
+    while current != -1:
+        path.append(current)
+        current = prev[current]
+    path.reverse()
+
+    return dist[f], path
+
+
+# Основная программа
+if __name__ == "__main__":
+    # Считывание входных данных
+    n, m = map(int, input().split())  # Кол-во вершин и рёбер
+    s, f = map(int, input().split())  # Начальная и конечная вершины
+
+    edges = []
+    for _ in range(m):
+        b, e, w = map(int, input().split())  # Рёбра и их веса
+        edges.append((b, e, w))
+
+    # Решение задачи
+    distance, path = dijkstra_with_path(n, m, s, f, edges)
+
+    # Вывод результата
+    if distance == -1:
+        print(-1)
+    else:
+        print(distance)
+        print(" ".join(map(str, path)))
