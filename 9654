@@ -1,0 +1,62 @@
+class Vertex:
+    def __init__(self, id):
+        self.id = id  # Идентификатор вершины
+        self.used = 0  # Состояние (0 - не посещена, 1 - серый, 2 - черный)
+        self.d = 0  # Время входа
+        self.f = 0  # Время выхода
+
+# Время по аналогии с C++ (глобальная переменная)
+t = 1
+
+def dfsMatrix(v, n, g, vertex):
+    global t
+
+    if vertex[v].used == 1:
+        return
+
+    vertex[v].d = t
+    t += 1
+    vertex[v].used = 1
+
+    for i in range(1, n + 1):
+        if vertex[i].used == 0 and g[v][i] == 1:
+            dfsMatrix(i, n, g, vertex)
+
+    vertex[v].f = t
+    t += 1
+
+def main():
+    # Чтение данных
+    n = int(input())
+
+    # Создание списка вершин
+    vertex = [None] * (n + 1)  # Индексация с 1
+    for i in range(1, n + 1):
+        vertex[i] = Vertex(i)
+
+    # Матрица смежности
+    g = [[0] * (n + 1) for _ in range(n + 1)]
+
+    # Ввод ребер
+    while True:
+        try:
+            a, b = map(int, input().split())
+            g[a][b] = 1
+            g[b][a] = 1
+        except EOFError:
+            break
+
+    # Запуск DFS
+    for i in range(1, n + 1):
+        if vertex[i].used == 0:
+            dfsMatrix(i, n, g, vertex)
+
+    # Сортировка вершин по времени входа
+    vertex_sorted = sorted(vertex[1:], key=lambda v: v.d)
+
+    # Вывод результатов
+    for v in vertex_sorted:
+        print(f"Vertex: {v.id}, Gray {v.d}, Black {v.f}")
+
+if __name__ == "__main__":
+    main()
