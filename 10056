@@ -1,0 +1,47 @@
+from collections import deque
+
+def zero_one_bfs(n, m, edges, start, end):
+    # Constants
+    INF = float('inf')
+
+    # Initialize adjacency list and distances
+    graph = [[] for _ in range(n + 1)]
+    dist = [INF] * (n + 1)
+
+    # Build the graph
+    for a, b, w in edges:
+        graph[a].append((b, w))
+        graph[b].append((a, w))
+
+    # BFS using deque
+    dist[start] = 0
+    q = deque([start])
+
+    while q:
+        v = q.popleft()
+
+        for to, weight in graph[v]:
+            if dist[to] > dist[v] + weight:
+                dist[to] = dist[v] + weight
+                # Add to front if weight is 0, else add to back
+                if weight == 0:
+                    q.appendleft(to)
+                else:
+                    q.append(to)
+
+    # Return the shortest distance to the destination
+    return dist[end]
+
+# Example usage
+if __name__ == "__main__":
+    # Input number of vertices, edges, start, end
+    n, m, s, d = map(int, input().split())
+    
+    edges = []
+    for _ in range(m):
+        a, b, w = map(int, input().split())
+        edges.append((a, b, w))
+    
+    # Perform 0-1 BFS
+    result = zero_one_bfs(n, m, edges, s, d)
+    print(result)
