@@ -1,0 +1,44 @@
+def dfs(v, g, used, d, f, t):
+    # Записываем метку входа
+    d[v] = t
+    t += 1
+    # Отмечаем вершину как посещенную
+    used[v] = True
+    # Рекурсивно посещаем все соседние вершины
+    for to in g[v]:
+        if not used[to]:
+            t = dfs(to, g, used, d, f, t)
+    # Записываем метку выхода
+    f[v] = t
+    t += 1
+    return t
+
+def main():
+    # Чтение данных
+    n, m = map(int, input().split())  # количество вершин и рёбер
+    g = [[] for _ in range(n+1)]  # список смежности
+    used = [False] * (n + 1)  # массив посещённых вершин
+    d = [0] * (n + 1)  # метки входа
+    f = [0] * (n + 1)  # метки выхода
+
+    # Чтение рёбер
+    for _ in range(m):
+        a, b = map(int, input().split())
+        g[a].append(b)
+        g[b].append(a)
+
+    # Чтение начальной вершины
+    v = int(input())
+
+    # Инициализация времени
+    t = 1
+
+    # Запуск DFS из вершины v
+    t = dfs(v, g, used, d, f, t)
+
+    # Вывод результатов
+    for i in range(1, n + 1):
+        print(d[i], f[i])
+
+if __name__ == "__main__":
+    main()
