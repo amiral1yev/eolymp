@@ -1,0 +1,58 @@
+import heapq
+
+# Константа для бесконечности
+INF = float('inf')
+
+def dijkstra_path(graph, n, start, end):
+    # Инициализация расстояний и предшественников
+    distances = [INF] * (n + 1)
+    predecessors = [-1] * (n + 1)
+    distances[start] = 0
+    
+    # Очередь с приоритетами для вершин
+    pq = [(0, start)]  # (расстояние, вершина)
+    
+    while pq:
+        current_distance, current_node = heapq.heappop(pq)
+        
+        if current_distance > distances[current_node]:
+            continue
+        
+        for neighbor, weight in graph[current_node]:
+            new_distance = current_distance + weight
+            if new_distance < distances[neighbor]:
+                distances[neighbor] = new_distance
+                predecessors[neighbor] = current_node
+                heapq.heappush(pq, (new_distance, neighbor))
+    
+    # Восстановление пути
+    if distances[end] == INF:
+        return -1, []
+    
+    path = []
+    current = end
+    while current != -1:
+        path.append(current)
+        current = predecessors[current]
+    path.reverse()
+    
+    return distances[end], path
+
+# Ввод данных
+n, m, s, f = map(int, input().split())  # Вершины, ребра, начальная и конечная
+graph = [[] for _ in range(n + 1)]
+
+for _ in range(m):
+    b, e, w = map(int, input().split())
+    graph[b].append((e, w))
+    graph[e].append((b, w))  # Неориентированный граф
+
+# Поиск пути
+distance, path = dijkstra_path(graph, n, s, f)
+
+# Вывод результата
+if distance == -1:
+    print(-1)
+else:
+    print(distance)
+    print(*path)
