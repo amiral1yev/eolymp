@@ -1,0 +1,64 @@
+from collections import defaultdict
+import heapq
+
+def solve_sponsor_problem(n, m, k, winners, times, start):
+    # Константа для "бесконечности"
+    INF = float('inf')
+
+    # Построение графа
+    graph = defaultdict(list)
+    for a, b, t in times:
+        graph[a].append((b, t))
+        graph[b].append((a, t))  # Неориентированный граф
+
+    # Алгоритм Дейкстры
+    def dijkstra(start):
+        dist = [INF] * (n + 1)
+        dist[start] = 0
+        pq = []
+        heapq.heappush(pq, (0, start))  # (время, вершина)
+
+        while pq:
+            current_dist, u = heapq.heappop(pq)
+
+            if current_dist > dist[u]:
+                continue
+
+            for v, weight in graph[u]:
+                new_dist = dist[u] + weight
+                if new_dist < dist[v]:
+                    dist[v] = new_dist
+                    heapq.heappush(pq, (new_dist, v))
+
+        return dist
+
+    # Найти минимальные расстояния от стартового отделения
+    dist = dijkstra(start)
+
+    # Проверяем достижимость всех призёров
+    max_time = 0
+    for winner in winners:
+        if dist[winner] == INF:  # Если призёр недостижим
+            return "It is not fault of sponsor..."
+        max_time = max(max_time, dist[winner])
+
+    # Все призы доставлены
+    return "The good sponsor!\n" + str(max_time)
+
+
+# Основная программа
+if __name__ == "__main__":
+    # Считывание входных данных
+    n, m, k = map(int, input().split())  # Участники, призёры, известные сроки доставки
+    winners = list(map(int, input().split()))  # Номера участников, ставших призёрами
+    times = []
+    for _ in range(k):
+        a, b, t = map(int, input().split())  # Сроки доставки
+        times.append((a, b, t))
+    start = int(input())  # Номер стартового отделения
+
+    # Решение задачи
+    result = solve_sponsor_problem(n, m, k, winners, times, start)
+
+    # Вывод результата
+    print(result)
