@@ -1,0 +1,41 @@
+def count_arctic_lands(n, positions):
+    # Размеры области Антарктики (MAX задаётся вручную)
+    MAX = 101
+    # Инициализация карты Антарктики
+    m = [[0] * MAX for _ in range(MAX)]
+
+    # Заполнение карты арктическими станциями
+    for x, y in positions:
+        m[x][y] = 1
+
+    # Функция DFS для обработки связных компонент
+    def dfs(i, j):
+        if i < 0 or j < 0 or i >= MAX or j >= MAX or m[i][j] == 0:
+            return
+        m[i][j] = 0  # Пометить текущую ячейку как посещённую
+        # Рекурсивные вызовы во всех восьми направлениях
+        dfs(i + 1, j - 1)
+        dfs(i + 1, j)
+        dfs(i + 1, j + 1)
+        dfs(i, j - 1)
+        dfs(i, j + 1)
+        dfs(i - 1, j - 1)
+        dfs(i - 1, j)
+        dfs(i - 1, j + 1)
+
+    # Подсчёт компонент связности
+    count = 0
+    for i in range(MAX):
+        for j in range(MAX):
+            if m[i][j] == 1:  # Если найдена арктическая станция
+                dfs(i, j)  # Обработать её с помощью DFS
+                count += 1  # Увеличить счётчик компонент
+
+    return count
+
+
+# Основная программа
+if __name__ == "__main__":
+    n = int(input())  # Ввод количества станций
+    positions = [tuple(map(int, input().split())) for _ in range(n)]  # Считывание координат станций
+    print(count_arctic_lands(n, positions))  # Вывод количества земель
