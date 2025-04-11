@@ -1,0 +1,55 @@
+from collections import defaultdict
+import heapq
+
+def dijkstra(n, s, t, edges):
+    # Константа для "бесконечности"
+    INF = float('inf')
+
+    # Построение графа
+    graph = defaultdict(list)
+    for b, e, w in edges:
+        graph[b].append((e, w))
+        graph[e].append((b, w))  # Граф неориентированный
+
+    # Инициализация массива расстояний
+    dist = [INF] * (n + 1)
+    dist[s] = 0
+
+    # Очередь с приоритетом
+    pq = []
+    heapq.heappush(pq, (0, s))  # (расстояние, вершина)
+
+    while pq:
+        current_dist, u = heapq.heappop(pq)
+
+        # Если расстояние из очереди больше уже найденного, пропускаем
+        if current_dist > dist[u]:
+            continue
+
+        # Релаксируем соседей
+        for v, weight in graph[u]:
+            new_dist = dist[u] + weight
+            if new_dist < dist[v]:
+                dist[v] = new_dist
+                heapq.heappush(pq, (new_dist, v))
+
+    # Возвращаем расстояние до вершины t
+    return dist[t]
+
+
+# Основная программа
+if __name__ == "__main__":
+    # Считывание входных данных
+    n, m = map(int, input().split())  # Количество вершин и рёбер
+    s, t = map(int, input().split())  # Начальная и конечная вершины
+
+    edges = []
+    for _ in range(m):
+        b, e, w = map(int, input().split())  # Рёбра и их веса
+        edges.append((b, e, w))
+
+    # Решение задачи
+    result = dijkstra(n, s, t, edges)
+
+    # Вывод результата
+    print(result)
